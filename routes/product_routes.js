@@ -13,10 +13,10 @@ module.exports = function(app) {
     app.route('/products')
         .post(todoListUser.verifyToken, todoList.createProduct);
 
-    app.route('/products')
+    app.route('/products/:id')
         .put(todoListUser.verifyToken, todoList.updateProduct);
     
-    app.route('/products')
+    app.route('/products/:id')
         .delete(todoListUser.verifyToken, todoList.deleteProduct);
     
     // Add or Reduce Qty in Product

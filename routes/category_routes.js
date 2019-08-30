@@ -16,7 +16,7 @@ module.exports = function(app) {
     app.route('/category')
         .post(todoListUser.verifyToken, todoList.createCategory);
 
-    app.route('/category')
+    app.route('/category/:id')
         .put(todoListUser.verifyToken, todoList.updateCategory);
     
     app.route('/category')

@@ -41,33 +41,42 @@ exports.createProduct = function(req, res) {
     
     const { pName, pDesc, pImage, idCategory, pQty } = req.body;
     const date = new Date();
-
     const query = "INSERT INTO `product` (pName, pDesc, pImage, idCategory, pQty, pDateAdded, pDateUpdated) VALUES (?,?,?,?,?,?,?)";
-
-    connection.query(query, [ pName, pDesc, pImage, idCategory, pQty, date, date ], (error, rows, fields) => {
-        if(error){
-            console.log(error)
-        } else{
-            response.ok("Successfully added new data", res)
-        }
-    });
+ 
+    if( !pName || !pDesc || !pImage || !idCategory || !pQty ) {
+        response.ok("Please insert the correct value", res);
+    } else {
+        connection.query(query, [ pName, pDesc, pImage, idCategory, pQty, date, date ], (error, rows, fields) => {
+            if(error){
+                console.log(error)
+            } else{
+                response.ok("Successfully added new data", res)
+            }
+        });
+    }
 };
 
 exports.updateProduct = function(req, res) {
     
-    const { pId, pName, pDesc, pImage, idCategory, pQty, pDateAdded, pDateUpdated } = req.body;
-
+    const { pName, pDesc, pImage, idCategory, pQty } = req.body;
+    const pId = req.params.id;
     const date = new Date();
+    const query = "";
 
-    const query = "UPDATE `product` SET pName = ?, pDesc = ?, pImage = ?, idCategory = ?, pQty = ?, pDateAdded = ?, pDateUpdated = ? WHERE pId = ?";
-
-    connection.query(query, [ pName, pDesc, pImage, idCategory, pQty, pDateAdded, date, pId ], (error, rows, fields) => {
-        if(error){
-            console.log(error)
-        } else{
-            response.ok("Successfully change data", res)
-        }
-    });
+    if( !pName || !pDesc || !pImage || !idCategory || !pQty ) {
+        response.ok("Please insert the correct value", res);
+    } else {
+        connection.query('UPDATE `product` SET pName = ?, pDesc = ?, pImage = ?, idCategory = ?, pQty = ?, pDateUpdated = ? WHERE pId = ?', 
+        [pName, pDesc, pImage, idCategory, pQty, date, pId ], (error, rows, fields) => {
+            if(error){
+                console.log(error)
+            } else{
+                response.ok("Successfully change data", res)
+            }
+        });
+    }
+        
+    
 };
 
 exports.deleteProduct = function(req, res) {
